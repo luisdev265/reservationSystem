@@ -7,7 +7,9 @@ export const registerReservation = async (req, res) => {
         const newReservation = await createNewReservation(req.body);
         res.status(201).json({message: "reserva creada con exitp", nuevaReserva: newReservation});
     } catch (error) {
-        console.error({message: error.message});
+        if (error.message.includes( "No existe cancha o usuario" )) {
+            return res.status(400).json({ message: error.message })
+        }
         res.status(500).json({ message: "Internal Server Error" });
     }
 }

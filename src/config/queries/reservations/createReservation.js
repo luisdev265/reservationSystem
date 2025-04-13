@@ -7,6 +7,8 @@ export const createReservation = async (
   endTime
 ) => {
   try {
+    //Validar datos de entrada para usuarios o canchas ya registradas.
+    await validateFields( userId, courtId );
     // Correcta sintaxis del INSERT INTO
     const query =
       "INSERT INTO reservations (user_id, court_id, start_time, end_time) VALUES (?, ?, ?, ?)";
@@ -30,3 +32,17 @@ export const createReservation = async (
     throw error;
   }
 };
+
+const validateFields = async ( userId, courtId ) => {
+  try {
+    const [ userRows ] = await pool.query("SELECT id FROM users  WHERE id = ?", [userId]);
+    const [ courtRows ] = await pool.query("SELECT id FROM courts  WHERE id = ?", [courtId]);
+
+    if ( userRows.length === 0 || courtRows.length === 0 ) {
+      throw new Error("No existe cancha o usuario con dicho id")
+    }
+  } catch (error) {
+    console.error({error: error.message});
+    throw error
+  }
+}
