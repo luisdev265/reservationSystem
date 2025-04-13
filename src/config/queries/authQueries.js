@@ -24,7 +24,7 @@ export const registerUser = async (username, email, hashedPassword) => {
 
   // Ejecuta la consulta para registrar el usuario
   const [result] = await pool.query(query, values);
-  if (result === 0) {
+  if (result.affectedRows === 0) {
     throw new Error("Error try to register new user");
   }
   const InserId = result.insertId;
