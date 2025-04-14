@@ -91,9 +91,19 @@ Actualiza una reserva existente.
 
 ---
 
-### DELETE `/reservas/:id`
-Elimina una reserva.
-#### En desarrollo
+### DELETE `/reservas/:id` **Agregar el id correspondiente al final de la ruta (sustituir por :id) "/reservas/4"**
+
+**Response ejemplo:**
+```json
+{ 
+  "message": "Reserva eliminada con exito",
+  "deletedReservation":{
+    "message":"Reserva eliminadaa conexito", 
+    "deletedId": "4"
+  }
+}
+```
+
 ---
 
 ## 🛠 Instalación y uso
