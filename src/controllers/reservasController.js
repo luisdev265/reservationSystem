@@ -1,4 +1,4 @@
-import { createNewReservation, getReservationsModel, getReservationsIdModel, updateReservationModel } from "../models/reservasModel.js"; 
+import { createNewReservation, getReservationsModel, getReservationsIdModel, updateReservationModel, deleteReservationModel } from "../models/reservasModel.js"; 
 
 
 // controlador para registrar reservas
@@ -20,7 +20,6 @@ export const getReservationController = async (req, res) => {
         const reservations = await getReservationsModel();
         res.status(200).json({message: "Reservas Obtenidad Con Exito", reservations: reservations});
     } catch (error) {
-        console.error({message: error.message});
         res.status(500).json({message: "Error al obtener las reservas", error: error.message});
     }
 }
@@ -32,7 +31,6 @@ export const getReservationIdController = async (req, res) => {
         const reservation = await getReservationsIdModel(id);
         res.status(200).json({message: "Reserva Obtenida Con Exito", reservations: reservation[0]});
     } catch (error) {
-        console.error({message: error.message});
         res.status(500).json({message: "Error al obtener la reserva", error: error.message});
     }
 }
@@ -44,7 +42,22 @@ export const updateReservationController = async ( req, res ) => {
 
         res.status(200).json({message: "Reserva actualziada con exito", updatedReservation: updatedReservation});
     } catch (error) {
-        console.error({message: error.message});
         res.status(500).json({message: "Internal Server Error", error: error.message});
+    }
+}
+
+export const deleteReservationController = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const deletedReservation = await deleteReservationModel(id);
+
+        res.status(200).json({message: "Reserva eliminada con exito", deletedReservation: deletedReservation});
+    } catch (error) {
+        if (error.message.includes("No se encontro la reserva")) {
+            return res.status(400).json({error: error.message});
+        }
+
+        res.status(500).json({message: "Internal Server Error", error: error.message});
+
     }
 }

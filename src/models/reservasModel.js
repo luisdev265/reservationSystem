@@ -1,4 +1,4 @@
-import { createReservation, getReservations, getReservationsId, updateReservation, validateReservation } from '../config/queries/reservations/index.js';
+import { createReservation, getReservations, getReservationsId, updateReservation, validateReservation, deleteReservation } from '../config/queries/reservations/index.js';
 
 export const createNewReservation = async (reservation) => {
     try {
@@ -63,4 +63,20 @@ export const updateReservationModel = async ( idReservation, updateData ) => {
         throw error;
     }
 
+}
+
+export const deleteReservationModel = async (idReservation) => {
+    try {
+        //validate if a field is empty
+        if (!idReservation) {
+            throw new Error("All fields are required");
+        }
+
+        const deletedReservation = await deleteReservation(idReservation);
+        
+        return deletedReservation;
+    } catch (error) {
+        console.error({error: error.message});
+        throw error;
+    }
 }
