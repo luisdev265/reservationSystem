@@ -98,7 +98,7 @@ Actualiza una reserva existente.
 { 
   "message": "Reserva eliminada con exito",
   "deletedReservation":{
-    "message":"Reserva eliminadaa conexito", 
+    "message":"Reserva eliminada con exito", 
     "deletedId": "4"
   }
 }

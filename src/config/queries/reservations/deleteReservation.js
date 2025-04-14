@@ -11,7 +11,7 @@ export const deleteReservation = async (idReservation) => {
         throw new Error("No se encontro la reserva para eliminar");
     }
 
-    return { message: "Reserva eliminadaa con exito", deletedId: idReservation };
+    return { message: "Reserva eliminada con exito", deletedId: idReservation };
 
  } catch (error) {
     console.error({error: error.message});
