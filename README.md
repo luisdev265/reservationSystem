@@ -123,7 +123,8 @@ DB_NAME=nombre_base_de_datos
 JWT_SECRET=tu_secreto_jwt
 
 # Iniciar el servidor
-npm dev
+npm run dev
+npm start
 ```
 
 ---
