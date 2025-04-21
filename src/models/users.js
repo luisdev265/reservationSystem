@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
-import { existingUser, registerUser } from '../config/queries/authQueries.js';
+import { existingUserLogin, registerUser, existingUserRegister } from '../db/queries/authQueries.js';
 
 dotenv.config();
 
@@ -10,11 +10,12 @@ export const register = async (user) => {
 
     //Check all the required fields are provided
     if (!username || !email || !password) {
+        console.log({username, email, password});
         throw new Error("All fields are required");
     }
 
     // Check if the email already exists
-    const userExist = await existingUser(email);
+    const userExist = await existingUserRegister(email);
     if (userExist) {
         throw new Error("Email already exists");
     }
@@ -45,7 +46,7 @@ export const logIn = async (user) => {
     }
 
     //Function tu get user data 
-    const userData = await existingUser(email);
+    const userData = await existingUserLogin(email);
 
     //Compare passwords are equals
     const passwordMatch = await bcrypt.compare(password, userData.password);
@@ -65,7 +66,7 @@ export const logIn = async (user) => {
     const { password: _, ...userExist} = userData;
 
     //Crear y devolver el token junto con los datos del usuario
-    const token = jwt.sign({ userId: userExist.id }, secret, { expiresIn: '7d' });
+    const token = jwt.sign({ userId: userExist.id, userName: userExist.name }, secret, { expiresIn: '7d' });
 
     return { token, userExist };
 }

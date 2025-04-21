@@ -1,4 +1,4 @@
-import { createReservation, getReservations, getReservationsId, updateReservation, validateReservation, deleteReservation } from '../config/queries/reservations/index.js';
+import { createReservation, getReservations, getReservationId, updateReservation, validateReservation, deleteReservation, getReservationsIdUser } from '../db/queries/reservations/index.js';
 
 export const createNewReservation = async (reservation) => {
     try {
@@ -33,9 +33,9 @@ export const getReservationsModel = async () => {
     }
 };
 
-export const getReservationsIdModel = async (id) => {
+export const getReservationIdModel = async (id) => {
     try {
-        const reservation = await getReservationsId(id);
+        const reservation = await getReservationId(id);
 
         return reservation;
     } catch (error) {
@@ -76,6 +76,24 @@ export const deleteReservationModel = async (idReservation) => {
         
         return deletedReservation;
     } catch (error) {
+        console.error({error: error.message});
+        throw error;
+    }
+}
+
+export const getReservationsIdUserModel = async (idUser) => {
+    try {
+        //Validate idUser is included
+        if (!idUser) {
+            throw new Error("El id de usuraio es requerido");
+        }
+
+        //Save de result fo th fubction inside a cosnt 
+        const resevationsIdUser = await getReservationsIdUser(idUser);
+
+        //Return de result of the function
+        return resevationsIdUser;
+    } catch(error) {
         console.error({error: error.message});
         throw error;
     }

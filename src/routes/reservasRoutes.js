@@ -1,10 +1,11 @@
 import express from 'express';
 const router = express.Router();
 
-import { registerReservation, getReservationController, getReservationIdController, updateReservationController, deleteReservationController } from '../controllers/reservasController.js'; 
+import { registerReservation, getReservationsController, getReservationIdController, updateReservationController, deleteReservationController, getReservationIdUserController } from '../controllers/reservasController.js'; 
 
-router.get('/', getReservationController);
-router.get('/:id', getReservationIdController);
+router.get('/', getReservationsController);
+router.get('/idReservation/:id', getReservationIdController);
+router.get('/idUser/:id', getReservationIdUserController);
 router.post('/', registerReservation);
 router.patch('/:id', updateReservationController);
 router.delete('/:id', deleteReservationController);

@@ -1,15 +1,31 @@
 import pool from "../database.js";
 
-export const existingUser = async (email) => {
+export const existingUserLogin = async (email) => {
   //Request para conseguir un usuario existente
   const [rows] = await pool.query(
     "SELECT * FROM users WHERE email = ? LIMIT 1",
     [email]
   );
 
-  //Si el usuario no existe mandar un error
+  //Si el usuario existe mandar un error
   if ( rows.length === 0) {
-    throw new Error("User not found");
+    throw new Error("User not exist");
+  }
+
+  //Devolver las filas encontradas
+  return rows[0];
+};
+
+export const existingUserRegister = async (email) => {
+  //Request para conseguir un usuario existente
+  const [rows] = await pool.query(
+    "SELECT * FROM users WHERE email = ? LIMIT 1",
+    [email]
+  );
+
+  //Si el usuario existe mandar un error
+  if ( rows.length > 0) {
+    throw new Error("User already exist");
   }
 
   //Devolver las filas encontradas

@@ -1,6 +1,6 @@
 import pool from "../../database.js";
 
-export const getReservations = async () => {
+export const getReservationId = async (idReservation) => {
     try {
       const query = `
         SELECT
@@ -16,17 +16,19 @@ export const getReservations = async () => {
           reservations r
         LEFT JOIN
           courts c ON r.court_id = c.id
+        WHERE 
+          r.id = ?
       `;
   
-      const [rows] = await pool.query(query);
+      const [rows] = await pool.query(query, [idReservation]);
   
       if (rows.length === 0) {
-        throw new Error("No hay reservas registradas");
+        throw new Error("No existe la reserva");
       }
   
-      return rows;
+      return rows[0];
     } catch (error) {
-      console.error("Error al obtener reservas:", error);
+      console.error("Error al obtener la reserva:", error);
       throw error;
     }
   };

@@ -3,6 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import user from './routes/usersRoutes.js'
 import reservation from './routes/reservasRoutes.js'
+import courts from './routes/courtsRoutes.js'
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ const server = (PORT) => {
     app.use(express.json());
     app.use('/users', user);
     app.use('/reservations', reservation);
+    app.use('/courts', courts);
     
     app.get('/', async (req, res) => {
       try {
@@ -23,8 +25,8 @@ const server = (PORT) => {
       }
     });
 
-    app.listen(PORT, () => {
-        console.log(`Server running on port http://localhost:${PORT}`); 
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`Server running on port http://192.168.1.67:${PORT}`); 
     })
 }
 
